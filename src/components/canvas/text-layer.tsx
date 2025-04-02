@@ -28,7 +28,7 @@ export const TextLayer = () => {
   const textRef = useRef<TextType>(null);
   const trRef = useRef<TransformerType>(null);
 
-  const [testX, setTestX] = useState(0);
+  const [, setTestX] = useState(0);
 
   const shift = useShiftHeld();
 

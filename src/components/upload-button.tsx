@@ -5,22 +5,18 @@ import { FileUp } from "lucide-react";
 import { motion } from "motion/react";
 
 import testImage from "@/assets/test.png";
-import {
-  backgroundImageAtom,
-  canvasDimensionsAtom,
-  textPositionAtom,
-} from "@/store/store";
+import { backgroundImageAtom, canvasDimensionsAtom } from "@/store/store";
 
 import { IconButton } from "./icon-button";
 
 export const UploadBackgroundButton = () => {
   const [backgroundImage, setBackgroundImage] = useAtom(backgroundImageAtom);
-  const [canvasDim, setCanvasDim] = useAtom(canvasDimensionsAtom);
-  const [, setTextPosition] = useAtom(textPositionAtom);
+  const [, setCanvasDim] = useAtom(canvasDimensionsAtom);
   const uploadRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    uploadStaticAsset();
+    if (!import.meta.env.PROD) uploadStaticAsset();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const uploadStaticAsset = async () => {
