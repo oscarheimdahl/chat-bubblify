@@ -21,10 +21,40 @@ export const BubbleLayer = () => {
   const [textPosition, setTextPosition] = useAtom(textPositionAtom);
   const [bubbleFocused, setBubbleFocused] = useAtom(bubbleFocusedAtom);
 
+  const tapStart = useRef({ x: 0, y: 0 });
+
   const shift = useShiftHeld();
 
   const imageRef = useRef<ImageType>(null);
   const trRef = useRef<TransformerType>(null);
+
+  const handleDragStart = (e: DragEvent) => {
+    const isTouch = isTouchEvent(e);
+    if (!isTouch) return;
+    tapStart.current = {
+      x: e.touches[0].clientX,
+      y: e.touches[0].clientY,
+    };
+  };
+
+  const handleDragMove = (e: DragEvent) => {
+    const isTouch = isTouchEvent(e);
+    if (isTouch) {
+      setTextPosition({
+        x: textPosition.x + e.touches[0].clientX - tapStart.current.x,
+        y: textPosition.y + e.touches[0].clientY - tapStart.current.y,
+      });
+      tapStart.current = {
+        x: e.touches[0].clientX,
+        y: e.touches[0].clientY,
+      };
+    } else {
+      setTextPosition({
+        x: textPosition.x + e.movementX,
+        y: textPosition.y + e.movementY,
+      });
+    }
+  };
 
   useEffect(() => {
     if (!trRef.current || !imageRef.current) return;
@@ -43,12 +73,8 @@ export const BubbleLayer = () => {
         ref={imageRef}
         image={bubbleImage}
         draggable
-        onDragMove={(e) => {
-          setTextPosition({
-            x: textPosition.x + e.evt.movementX,
-            y: textPosition.y + e.evt.movementY,
-          });
-        }}
+        onDragStart={(e) => handleDragStart(e.evt)}
+        onDragMove={(e) => handleDragMove(e.evt)}
       />
       <Transformer
         anchorSize={20}
@@ -63,4 +89,9 @@ export const BubbleLayer = () => {
       />
     </Layer>
   );
+};
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const isTouchEvent = (e: any): e is TouchEvent => {
+  return e.type === "touchmove" || e.type === "touchend";
 };
