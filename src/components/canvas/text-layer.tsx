@@ -10,6 +10,7 @@ import {
   bubbleImageAtom,
   canvasDimensionsAtom,
   textFocusedAtom,
+  textPositionAtom,
 } from "@/store/store";
 import { cn } from "@/utils/cn";
 import { useShiftHeld } from "@/utils/use-shift-held";
@@ -17,6 +18,7 @@ import { useShiftHeld } from "@/utils/use-shift-held";
 export const TextLayer = () => {
   const [bubbleImage] = useAtom(bubbleImageAtom);
   const [canvasDim] = useAtom(canvasDimensionsAtom);
+  const [textPosition] = useAtom(textPositionAtom);
 
   const [textFocused, setTextFocused] = useAtom(textFocusedAtom);
 
@@ -25,6 +27,8 @@ export const TextLayer = () => {
   const [textWidth, setTextWidth] = useState(200);
   const textRef = useRef<TextType>(null);
   const trRef = useRef<TransformerType>(null);
+
+  const [testX, setTestX] = useState(0);
 
   const shift = useShiftHeld();
 
@@ -36,6 +40,7 @@ export const TextLayer = () => {
 
   const handleTextDblClick = () => {
     setIsEditing(true);
+    setTestX(100);
   };
 
   const handleTextChange = (newText: string) => {
@@ -55,16 +60,16 @@ export const TextLayer = () => {
     setTextWidth(newWidth);
   };
 
-  if (!bubbleImage) return null;
-
   return (
-    <Layer>
+    <Layer visible={!!bubbleImage}>
       <Text
         ref={textRef}
         text={text}
         width={textWidth}
         x={-100 + canvasDim.w / 6}
         y={-40 + canvasDim.w / 6}
+        offsetX={-textPosition.x}
+        offsetY={-textPosition.y}
         padding={10}
         fontSize={30}
         draggable
@@ -77,10 +82,7 @@ export const TextLayer = () => {
         onDblClick={handleTextDblClick}
         onDblTap={handleTextDblClick}
         onTap={() => setTextFocused((prev) => !prev)}
-        onClick={() => {
-          console.log(`Click`);
-          return setTextFocused((prev) => !prev);
-        }}
+        onClick={() => setTextFocused((prev) => !prev)}
       />
       {isEditing && (
         <TextEditor
@@ -90,19 +92,18 @@ export const TextLayer = () => {
           onClose={handleClose}
         />
       )}
-      {!isEditing && (
-        <Transformer
-          ref={trRef}
-          visible={textFocused}
-          enabledAnchors={["middle-left", "middle-right"]}
-          rotationSnaps={[0, 90, 180, 270]}
-          rotationSnapTolerance={shift ? 20 : 0}
-          boundBoxFunc={(_oldBox, newBox) => ({
-            ...newBox,
-            width: Math.max(30, newBox.width),
-          })}
-        />
-      )}
+
+      <Transformer
+        visible={textFocused && !isEditing}
+        ref={trRef}
+        enabledAnchors={["middle-left", "middle-right"]}
+        rotationSnaps={[0, 90, 180, 270]}
+        rotationSnapTolerance={shift ? 20 : 0}
+        boundBoxFunc={(_oldBox, newBox) => ({
+          ...newBox,
+          width: Math.max(30, newBox.width),
+        })}
+      />
     </Layer>
   );
 };

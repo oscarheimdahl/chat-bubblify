@@ -5,13 +5,18 @@ import { FileUp } from "lucide-react";
 import { motion } from "motion/react";
 
 import testImage from "@/assets/test.png";
-import { backgroundImageAtom, canvasDimensionsAtom } from "@/store/store";
+import {
+  backgroundImageAtom,
+  canvasDimensionsAtom,
+  textPositionAtom,
+} from "@/store/store";
 
 import { IconButton } from "./icon-button";
 
 export const UploadBackgroundButton = () => {
   const [backgroundImage, setBackgroundImage] = useAtom(backgroundImageAtom);
-  const [, setCanvasDim] = useAtom(canvasDimensionsAtom);
+  const [canvasDim, setCanvasDim] = useAtom(canvasDimensionsAtom);
+  const [, setTextPosition] = useAtom(textPositionAtom);
   const uploadRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {

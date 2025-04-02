@@ -14,6 +14,10 @@ export const canvasDimensionsAtom = atom<{ w: number; h: number }>({
 
 export const bubbleFocusedAtom = atom<boolean>(false);
 export const textFocusedAtom = atom<boolean>(false);
+export const textPositionAtom = atom<{ x: number; y: number }>({
+  x: 0,
+  y: 0,
+});
 
 export const bubbleImageAtom = atom<string | null>(null);
 export const backgroundImageAtom = atom<HTMLImageElement | null>(null);

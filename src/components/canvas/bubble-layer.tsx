@@ -10,6 +10,7 @@ import {
   bubbleFocusedAtom,
   bubbleImageAtom,
   canvasDimensionsAtom,
+  textPositionAtom,
 } from "@/store/store";
 import { useShiftHeld } from "@/utils/use-shift-held";
 
@@ -17,6 +18,7 @@ export const BubbleLayer = () => {
   const [bubbleImageSrc] = useAtom(bubbleImageAtom);
   const [bubbleImage] = useImage(bubbleImageSrc ?? "", "anonymous");
   const [canvasDim] = useAtom(canvasDimensionsAtom);
+  const [textPosition, setTextPosition] = useAtom(textPositionAtom);
   const [bubbleFocused, setBubbleFocused] = useAtom(bubbleFocusedAtom);
 
   const shift = useShiftHeld();
@@ -41,6 +43,12 @@ export const BubbleLayer = () => {
         ref={imageRef}
         image={bubbleImage}
         draggable
+        onDragMove={(e) => {
+          setTextPosition({
+            x: textPosition.x + e.evt.movementX,
+            y: textPosition.y + e.evt.movementY,
+          });
+        }}
       />
       <Transformer
         anchorSize={20}

@@ -31,6 +31,8 @@ export const Canvas = () => {
   const handleCanvasClick = (e: KonvaEventObject<MouseEvent>) => {
     if (e.target !== e.target.getStage()) return;
 
+    console.log(`canvas`);
+
     setBubbleFocused(false);
     setTextFocused(false);
   };
