@@ -114,6 +114,8 @@ const TextEditor = (props: {
   onClose: () => void;
   onChange: (text: string) => void;
 }) => {
+  const [textPosition] = useAtom(textPositionAtom);
+
   const { textNode, onClose } = props;
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const textarea = textareaRef.current;
@@ -161,6 +163,8 @@ const TextEditor = (props: {
   const padding = textNode?.padding() ?? 0;
   const width = textNode?.width() ?? 0;
   const height = textNode?.height() ?? 0;
+  const textNodeX = textNode?.position().x ?? 0;
+  const textNodeY = textNode?.position().y ?? 0;
 
   textarea?.focus();
 
@@ -170,8 +174,8 @@ const TextEditor = (props: {
         autoFocus
         onBlur={onClose}
         style={{
-          left: `${textNode?.position().x}px`,
-          top: `${textNode?.position().y}px`,
+          left: `${textNodeX + textPosition.x}px`,
+          top: `${textNodeY + textPosition.y}px`,
           width: `${width - padding * 2}px`,
           height: `${height - padding * 2 + 5}px`,
           fontSize: `${textNode?.fontSize()}px`,
