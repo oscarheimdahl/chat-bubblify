@@ -12,15 +12,10 @@ export const canvasDimensionsAtom = atom<{ w: number; h: number }>({
   h: 0,
 });
 
-export const bubblePositionAtom = atom<{ x: number; y: number }>({
-  x: 0,
-  y: 0,
-});
-
-export const bubbleDimensionsAtom = atom<{ w: number; h: number }>({
-  w: 150,
-  h: 100,
-});
+export const bubbleFocusedAtom = atom<boolean>(false);
+export const textFocusedAtom = atom<boolean>(false);
 
 export const bubbleImageAtom = atom<string | null>(null);
 export const backgroundImageAtom = atom<HTMLImageElement | null>(null);
+
+export const activeMenuAtom = atom<"bubble" | "text" | null>(null);
