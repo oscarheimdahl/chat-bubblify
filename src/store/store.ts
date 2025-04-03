@@ -3,6 +3,8 @@ import { RefObject } from "react";
 import { atom } from "jotai";
 import { Stage as KonvaStage } from "konva/lib/Stage";
 
+export type Fonts = "Inter" | "EB Garamond" | "JetBrains Mono";
+
 export const canvasStageRefAtom = atom<RefObject<KonvaStage | null> | null>(
   null,
 );
@@ -14,6 +16,9 @@ export const canvasDimensionsAtom = atom<{ w: number; h: number }>({
 
 export const bubbleFocusedAtom = atom<boolean>(false);
 export const textFocusedAtom = atom<boolean>(false);
+
+export const textSizeAtom = atom<number>(20);
+export const textFontAtom = atom<Fonts>("Inter");
 export const textPositionAtom = atom<{ x: number; y: number }>({
   x: 0,
   y: 0,

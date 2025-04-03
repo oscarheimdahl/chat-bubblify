@@ -12,7 +12,6 @@ export const ExportButton = () => {
   const [stageRef] = useAtom(canvasStageRefAtom);
 
   const handleExport = () => {
-    console.log(`🔴`);
     if (!stageRef?.current) return;
 
     const link = document.createElement("a");
@@ -24,13 +23,13 @@ export const ExportButton = () => {
   const enabled = backgroundImage;
 
   return (
-    <div className={cn("absolute top-[-100px] right-0 transition-all")}>
+    <div className={cn("absolute top-[-72px] right-0 transition-all")}>
       <motion.div
         aria-label="Download"
         initial={{ scale: 0 }}
         animate={{
-          scale: enabled ? 0.5 : 0,
-          transformOrigin: "right",
+          scale: enabled ? 1 : 0,
+          // transformOrigin: "right",
         }}
         transition={{ type: "spring", duration: 0.5, delay: 0.6 }}
       >

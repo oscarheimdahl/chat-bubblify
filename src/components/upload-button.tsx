@@ -7,7 +7,7 @@ import { motion } from "motion/react";
 import testImage from "@/assets/test.png";
 import { backgroundImageAtom, canvasDimensionsAtom } from "@/store/store";
 
-import { IconButton } from "./icon-button";
+import { IconButtonLarge } from "./icon-button";
 
 export const UploadBackgroundButton = () => {
   const [backgroundImage, setBackgroundImage] = useAtom(backgroundImageAtom);
@@ -73,7 +73,7 @@ export const UploadBackgroundButton = () => {
         animate={{ scale: backgroundImage ? 0.5 : 1 }}
         transition={{ type: "spring", duration: 0.5, delay: 0.6 }}
       >
-        <IconButton
+        <IconButtonLarge
           className="bg-blue-600"
           label="Upload"
           icon={<FileUp />}

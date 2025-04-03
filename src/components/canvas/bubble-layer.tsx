@@ -18,7 +18,7 @@ export const BubbleLayer = () => {
   const [bubbleImageSrc] = useAtom(bubbleImageAtom);
   const [bubbleImage] = useImage(bubbleImageSrc ?? "", "anonymous");
   const [canvasDim] = useAtom(canvasDimensionsAtom);
-  const [textPosition, setTextPosition] = useAtom(textPositionAtom);
+  const [, setTextPosition] = useAtom(textPositionAtom);
   const [bubbleFocused, setBubbleFocused] = useAtom(bubbleFocusedAtom);
 
   const tapStart = useRef({ x: 0, y: 0 });
@@ -40,19 +40,19 @@ export const BubbleLayer = () => {
   const handleDragMove = (e: DragEvent) => {
     const isTouch = isTouchEvent(e);
     if (isTouch) {
-      setTextPosition({
-        x: textPosition.x + e.touches[0].clientX - tapStart.current.x,
-        y: textPosition.y + e.touches[0].clientY - tapStart.current.y,
-      });
+      setTextPosition((prev) => ({
+        x: prev.x + e.touches[0].clientX - tapStart.current.x,
+        y: prev.y + e.touches[0].clientY - tapStart.current.y,
+      }));
       tapStart.current = {
         x: e.touches[0].clientX,
         y: e.touches[0].clientY,
       };
     } else {
-      setTextPosition({
-        x: textPosition.x + e.movementX,
-        y: textPosition.y + e.movementY,
-      });
+      setTextPosition((prev) => ({
+        x: prev.x + e.movementX,
+        y: prev.y + e.movementY,
+      }));
     }
   };
 

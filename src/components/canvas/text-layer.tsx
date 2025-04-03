@@ -10,7 +10,9 @@ import {
   bubbleImageAtom,
   canvasDimensionsAtom,
   textFocusedAtom,
+  textFontAtom,
   textPositionAtom,
+  textSizeAtom,
 } from "@/store/store";
 import { cn } from "@/utils/cn";
 import { useShiftHeld } from "@/utils/use-shift-held";
@@ -19,6 +21,8 @@ export const TextLayer = () => {
   const [bubbleImage] = useAtom(bubbleImageAtom);
   const [canvasDim] = useAtom(canvasDimensionsAtom);
   const [textPosition] = useAtom(textPositionAtom);
+  const [textSize] = useAtom(textSizeAtom);
+  const [textFont] = useAtom(textFontAtom);
 
   const [textFocused, setTextFocused] = useAtom(textFocusedAtom);
 
@@ -71,7 +75,8 @@ export const TextLayer = () => {
         offsetX={-textPosition.x}
         offsetY={-textPosition.y}
         padding={10}
-        fontSize={30}
+        fontSize={textSize}
+        fontFamily={textFont}
         draggable
         shadowColor="white"
         shadowBlur={2}
