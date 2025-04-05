@@ -3,8 +3,9 @@ import { ReactNode } from "react";
 import { useAtom } from "jotai";
 import { motion } from "motion/react";
 
-import talkBubble from "@/assets/talk-bubble.svg";
-import thinkBubble from "@/assets/think-bubble.svg";
+import exclaimBubble from "@/assets/bubbles/exclaim-bubble.svg";
+import talkBubble from "@/assets/bubbles/talk-bubble.svg";
+import thinkBubble from "@/assets/bubbles/think-bubble.svg";
 import {
   backgroundImageAtom,
   bubbleImageAtom,
@@ -19,6 +20,7 @@ export const BubbleMenu = () => {
       <div className="mx-auto flex flex-row gap-2">
         <BubbleButton bubbleImage={talkBubble} />
         <BubbleButton bubbleImage={thinkBubble} />
+        <BubbleButton bubbleImage={exclaimBubble} />
       </div>
     </MenuWrapper>
   );
@@ -29,14 +31,19 @@ const BubbleButton = (props: { bubbleImage: string }) => {
   const [canvasDim] = useAtom(canvasDimensionsAtom);
   const [backgroundImage] = useAtom(backgroundImageAtom);
 
+  const selected = loadedBubbleImage === props.bubbleImage;
+
   return (
     <motion.button
-      layout
-      disabled={!backgroundImage || loadedBubbleImage === props.bubbleImage}
-      className="rounded-md px-2 py-1 disabled:hidden"
+      disabled={!backgroundImage}
+      className={"rounded-md px-2 py-1"}
       onClick={() => setLoadedBubbleImage(props.bubbleImage)}
       onTap={() => setLoadedBubbleImage(props.bubbleImage)}
-      whileHover={{ scale: 1.2 }}
+      whileHover={{ scale: 1.1 }}
+      animate={{
+        scale: selected ? 1.05 : 1,
+        opacity: selected ? 0.5 : 1,
+      }}
       transition={{ type: "spring", duration: 0.5 }}
     >
       <Stack>

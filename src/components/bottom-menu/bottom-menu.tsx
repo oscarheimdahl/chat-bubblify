@@ -12,14 +12,11 @@ export const BottomMenu = () => {
   const [backgroundImage] = useAtom(backgroundImageAtom);
   const [activeMenu] = useAtom(activeMenuAtom);
 
-  let menuHide = "0%";
-  if (!backgroundImage) menuHide = "100%";
-
   return (
     <motion.div
-      className="absolute bottom-0 flex w-full items-center justify-center pb-4"
+      className="absolute bottom-0 flex w-full items-center justify-center px-4 pb-4"
       animate={{
-        translateY: menuHide,
+        opacity: backgroundImage ? 1 : 0,
       }}
       transition={{ type: "spring", duration: 0.4 }}
     >
