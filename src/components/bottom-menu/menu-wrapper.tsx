@@ -34,7 +34,7 @@ export const MenuWrapper = (props: { children: ReactNode }) => {
       animate={{ opacity: 1, translateY: "0px" }}
       exit={{ opacity: 0, translateY: "300px" }}
       ref={ref}
-      className="mx-auto flex w-fit items-center justify-center gap-2 rounded-md border-2 border-black bg-neutral-200 p-4 shadow-sm"
+      className="mx-auto flex w-fit items-center justify-center gap-2 rounded-md border-2 border-black bg-neutral-50 p-4 shadow-sm"
     >
       {props.children}
     </motion.div>

@@ -8,7 +8,7 @@ import { Html } from "react-konva-utils";
 
 import {
   bubbleImageAtom,
-  canvasDimensionsAtom,
+  bubblePositionAtom,
   textFocusedAtom,
   textFontAtom,
   textPositionAtom,
@@ -19,8 +19,8 @@ import { useShiftHeld } from "@/utils/use-shift-held";
 
 export const TextLayer = () => {
   const [bubbleImage] = useAtom(bubbleImageAtom);
-  const [canvasDim] = useAtom(canvasDimensionsAtom);
-  const [textPosition] = useAtom(textPositionAtom);
+  const [bubblePosition] = useAtom(bubblePositionAtom);
+  const [textPosition, setTextPosition] = useAtom(textPositionAtom);
   const [textSize] = useAtom(textSizeAtom);
   const [textFont] = useAtom(textFontAtom);
 
@@ -67,13 +67,13 @@ export const TextLayer = () => {
   return (
     <Layer visible={!!bubbleImage}>
       <Text
+        offsetX={textWidth / 2}
+        offsetY={textSize}
         ref={textRef}
         text={text}
         width={textWidth}
-        x={-100 + canvasDim.w / 6}
-        y={-40 + canvasDim.w / 6}
-        offsetX={-textPosition.x}
-        offsetY={-textPosition.y}
+        x={bubblePosition.x + textPosition.x}
+        y={bubblePosition.y + textPosition.y}
         padding={10}
         fontSize={textSize}
         fontFamily={textFont}
@@ -88,6 +88,12 @@ export const TextLayer = () => {
         onDblTap={handleTextDblClick}
         onTap={() => setTextFocused((prev) => !prev)}
         onClick={() => setTextFocused((prev) => !prev)}
+        onDragMove={(e) =>
+          setTextPosition({
+            x: e.target.x() - bubblePosition.x,
+            y: e.target.y() - bubblePosition.y,
+          })
+        }
       />
       {isEditing && (
         <TextEditor
@@ -119,6 +125,7 @@ const TextEditor = (props: {
   onClose: () => void;
   onChange: (text: string) => void;
 }) => {
+  const [bubblePosition] = useAtom(bubblePositionAtom);
   const [textPosition] = useAtom(textPositionAtom);
 
   const { textNode, onClose } = props;
@@ -168,8 +175,7 @@ const TextEditor = (props: {
   const padding = textNode?.padding() ?? 0;
   const width = textNode?.width() ?? 0;
   const height = textNode?.height() ?? 0;
-  const textNodeX = textNode?.position().x ?? 0;
-  const textNodeY = textNode?.position().y ?? 0;
+  const size = textNode?.fontSize() ?? 0;
 
   textarea?.focus();
 
@@ -179,11 +185,11 @@ const TextEditor = (props: {
         autoFocus
         onBlur={onClose}
         style={{
-          left: `${textNodeX + textPosition.x}px`,
-          top: `${textNodeY + textPosition.y}px`,
+          left: `${textPosition.x + bubblePosition.x - width / 2}px`,
+          top: `${textPosition.y + bubblePosition.y - size}px`,
           width: `${width - padding * 2}px`,
           height: `${height - padding * 2 + 5}px`,
-          fontSize: `${textNode?.fontSize()}px`,
+          fontSize: `${size}px`,
           lineHeight: textNode?.lineHeight().toString(),
           fontFamily: textNode?.fontFamily(),
           // textAlign: textNode?.align(),

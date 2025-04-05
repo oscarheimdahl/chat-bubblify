@@ -7,7 +7,9 @@ import { motion } from "motion/react";
 import testImage from "@/assets/test.png";
 import {
   backgroundImageAtom,
+  bubblePositionAtom,
   canvasDimensionsAtom,
+  textPositionAtom,
   textSizeAtom,
 } from "@/store/store";
 
@@ -16,6 +18,8 @@ import { IconButtonLarge } from "./icon-button";
 export const UploadBackgroundButton = () => {
   const [backgroundImage, setBackgroundImage] = useAtom(backgroundImageAtom);
   const [, setCanvasDim] = useAtom(canvasDimensionsAtom);
+  const [, setTextPosition] = useAtom(textPositionAtom);
+  const [, setBubblePosition] = useAtom(bubblePositionAtom);
   const [, setTextSize] = useAtom(textSizeAtom);
   const uploadRef = useRef<HTMLInputElement>(null);
 
@@ -54,6 +58,8 @@ export const UploadBackgroundButton = () => {
 
         setCanvasDim({ w: newWidth, h: newHeight });
         setTextSize(newWidth / 20);
+        setBubblePosition({ x: newWidth / 6, y: newHeight / 6 });
+        // setTextPosition({ x: 0, y: 0 });
         setBackgroundImage(image);
       };
     };
