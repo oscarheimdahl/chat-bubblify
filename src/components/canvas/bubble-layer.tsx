@@ -7,6 +7,7 @@ import { Image, Layer, Rect, Transformer } from "react-konva";
 import useImage from "use-image";
 
 import lucideFlip from "@/assets/lucide-flip.svg";
+import lucideRotate from "@/assets/lucide-rotate.svg";
 import {
   bubbleFocusedAtom,
   bubbleImageAtom,
@@ -19,6 +20,7 @@ export const BubbleLayer = () => {
   const [bubbleImageSrc] = useAtom(bubbleImageAtom);
   const [bubbleImage] = useImage(bubbleImageSrc ?? "", "anonymous");
   const [flipImage] = useImage(lucideFlip ?? "", "anonymous");
+  const [rotateImage] = useImage(lucideRotate ?? "", "anonymous");
   const [canvasDim] = useAtom(canvasDimensionsAtom);
   const [bubbleFocused, setBubbleFocused] = useAtom(bubbleFocusedAtom);
   const [bubblePosition, setBubblePosition] = useAtom(bubblePositionAtom);
@@ -33,21 +35,30 @@ export const BubbleLayer = () => {
     trRef.current.nodes([imageRef.current]);
   }, [bubbleImage]);
 
-  const flip = () => {
+  const flipHorizontal = () => {
     const image = imageRef.current;
     if (!image) return;
 
     image.scaleX(image.scaleX() * -1);
   };
 
+  const flipVertical = () => {
+    const image = imageRef.current;
+    if (!image) return;
+
+    image.scaleY(image.scaleY() * -1);
+  };
+
   const rotate = () => {
     const image = imageRef.current;
     if (!image) return;
 
-    image.rotate(image.rotation() + 90);
+    image.rotate(90);
   };
 
   if (!bubbleImage) return null;
+
+  console.log(imageRef.current?.rotation());
 
   return (
     <Layer>
@@ -62,8 +73,8 @@ export const BubbleLayer = () => {
         height={canvasDim.w / 3}
         ref={imageRef}
         image={bubbleImage}
-        onDblClick={flip}
-        onDblTap={flip}
+        onDblClick={flipHorizontal}
+        onDblTap={flipHorizontal}
         draggable
         onDragMove={(e) =>
           setBubblePosition({ x: e.target.x(), y: e.target.y() })
@@ -84,15 +95,15 @@ export const BubbleLayer = () => {
       <Rect
         visible={bubbleFocused}
         x={canvasDim.w / 2 - 55 / 2}
-        y={canvasDim.w - 55 - 16}
+        y={canvasDim.h - 55 - 16}
         width={55}
         height={55}
         cornerRadius={5}
         stroke={"black"}
         strokeWidth={2}
         fill={"white"}
-        onClick={flip}
-        onTap={flip}
+        onClick={flipHorizontal}
+        onTap={flipHorizontal}
       />
       <Image
         listening={false}
@@ -100,10 +111,57 @@ export const BubbleLayer = () => {
         offsetY={-10}
         visible={bubbleFocused}
         x={canvasDim.w / 2 - 55 / 2}
-        y={canvasDim.w - 55 - 16}
+        y={canvasDim.h - 55 - 16}
         width={55 - 20}
         height={55 - 20}
         image={flipImage}
+      />
+      <Rect
+        visible={bubbleFocused}
+        x={canvasDim.w / 2 - 55 / 2 + 55 + 16}
+        y={canvasDim.h - 55 - 16}
+        width={55}
+        height={55}
+        cornerRadius={5}
+        stroke={"black"}
+        strokeWidth={2}
+        fill={"white"}
+        onClick={flipVertical}
+        onTap={flipVertical}
+      />
+      <Image
+        listening={false}
+        rotation={90}
+        visible={bubbleFocused}
+        x={canvasDim.w / 2 - 55 / 2 + 55 + 16 + 45}
+        y={canvasDim.h - 55 - 16 + 10}
+        width={55 - 20}
+        height={55 - 20}
+        image={flipImage}
+      />
+      <Rect
+        visible={bubbleFocused}
+        x={canvasDim.w / 2 - 55 / 2 - 55 - 16}
+        y={canvasDim.h - 55 - 16}
+        width={55}
+        height={55}
+        cornerRadius={5}
+        stroke={"black"}
+        strokeWidth={2}
+        fill={"white"}
+        onClick={rotate}
+        onTap={rotate}
+      />
+      <Image
+        listening={false}
+        offsetX={-10}
+        offsetY={-10}
+        visible={bubbleFocused}
+        x={canvasDim.w / 2 - 55 / 2 - 55 - 16}
+        y={canvasDim.h - 55 - 16}
+        width={55 - 20}
+        height={55 - 20}
+        image={rotateImage}
       />
     </Layer>
   );

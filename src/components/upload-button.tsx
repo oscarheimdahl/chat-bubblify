@@ -24,7 +24,7 @@ export const UploadBackgroundButton = () => {
   const uploadRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    if (!import.meta.env.PROD) uploadStaticAsset();
+    // if (!import.meta.env.PROD) uploadStaticAsset();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

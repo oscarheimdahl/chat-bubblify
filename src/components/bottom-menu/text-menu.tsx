@@ -1,8 +1,22 @@
 import { useAtom } from "jotai";
-import { ArrowBigDown, ArrowBigUp, CaseSensitive, Check } from "lucide-react";
+import {
+  ArrowBigDown,
+  ArrowBigUp,
+  Bold,
+  CaseSensitive,
+  Check,
+  Italic,
+  Underline,
+} from "lucide-react";
 
 import { IconButton } from "@/components/icon-button";
-import { textFontAtom, textSizeAtom } from "@/store/store";
+import {
+  textBoldAtom,
+  textFontAtom,
+  textItalicsAtom,
+  textSizeAtom,
+  textUnderlineAtom,
+} from "@/store/store";
 import { cn } from "@/utils/cn";
 
 import { MenuWrapper } from "./menu-wrapper";
@@ -10,6 +24,9 @@ import { MenuWrapper } from "./menu-wrapper";
 export const TextMenu = () => {
   const [textSize, setTextSize] = useAtom(textSizeAtom);
   const [textFont, setTextFont] = useAtom(textFontAtom);
+  const [, setTextItalics] = useAtom(textItalicsAtom);
+  const [, setTextBold] = useAtom(textBoldAtom);
+  const [, setTextUnderline] = useAtom(textUnderlineAtom);
 
   return (
     <MenuWrapper>
@@ -51,6 +68,26 @@ export const TextMenu = () => {
           >
             Serif
           </FontButton>
+        </div>
+        <div className="flex flex-col gap-4 md:flex-row">
+          <IconButton
+            className="bg-neutral-500 transition-all active:-translate-y-1"
+            icon={<Italic />}
+            label="Text style italic"
+            onClick={() => setTextItalics((prev) => !prev)}
+          />
+          <IconButton
+            className="bg-neutral-500 transition-all active:-translate-y-1"
+            icon={<Bold />}
+            label="Text style bold"
+            onClick={() => setTextBold((prev) => !prev)}
+          />
+          <IconButton
+            className="bg-neutral-500 transition-all active:-translate-y-1"
+            icon={<Underline />}
+            label="Text style underline"
+            onClick={() => setTextUnderline((prev) => !prev)}
+          />
         </div>
       </div>
     </MenuWrapper>

@@ -9,10 +9,13 @@ import { Html } from "react-konva-utils";
 import {
   bubbleImageAtom,
   bubblePositionAtom,
+  textBoldAtom,
   textFocusedAtom,
   textFontAtom,
+  textItalicsAtom,
   textPositionAtom,
   textSizeAtom,
+  textUnderlineAtom,
 } from "@/store/store";
 import { cn } from "@/utils/cn";
 import { useShiftHeld } from "@/utils/use-shift-held";
@@ -23,6 +26,9 @@ export const TextLayer = () => {
   const [textPosition, setTextPosition] = useAtom(textPositionAtom);
   const [textSize] = useAtom(textSizeAtom);
   const [textFont] = useAtom(textFontAtom);
+  const [textItalics] = useAtom(textItalicsAtom);
+  const [textBold] = useAtom(textBoldAtom);
+  const [textUnderline] = useAtom(textUnderlineAtom);
 
   const [textFocused, setTextFocused] = useAtom(textFocusedAtom);
 
@@ -64,6 +70,10 @@ export const TextLayer = () => {
     setTextWidth(newWidth);
   };
 
+  let textStyle = "";
+  if (textItalics) textStyle += "italic";
+  if (textBold) textStyle += " bold";
+
   return (
     <Layer visible={!!bubbleImage}>
       <Text
@@ -74,6 +84,8 @@ export const TextLayer = () => {
         width={textWidth}
         x={bubblePosition.x + textPosition.x}
         y={bubblePosition.y + textPosition.y}
+        fontStyle={textStyle}
+        textDecoration={textUnderline ? "underline" : ""}
         padding={10}
         fontSize={textSize}
         fontFamily={textFont}

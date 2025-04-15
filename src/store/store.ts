@@ -19,6 +19,9 @@ export const textFocusedAtom = atom<boolean>(false);
 
 export const textSizeAtom = atom<number>(20);
 export const textFontAtom = atom<Fonts>("Inter");
+export const textUnderlineAtom = atom(false);
+export const textBoldAtom = atom(false);
+export const textItalicsAtom = atom(true);
 export const textPositionAtom = atom<{ x: number; y: number }>({
   x: 0,
   y: 0,
