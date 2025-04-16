@@ -9,8 +9,8 @@ import { Html } from "react-konva-utils";
 import {
   bubbleImageAtom,
   bubblePositionAtom,
+  canvasFocusAtom,
   textBoldAtom,
-  textFocusedAtom,
   textFontAtom,
   textItalicsAtom,
   textPositionAtom,
@@ -30,7 +30,7 @@ export const TextLayer = () => {
   const [textBold] = useAtom(textBoldAtom);
   const [textUnderline] = useAtom(textUnderlineAtom);
 
-  const [textFocused, setTextFocused] = useAtom(textFocusedAtom);
+  const [canvasFocus, setCanvasFocus] = useAtom(canvasFocusAtom);
 
   const [text, setText] = useState("Text...");
   const [isEditing, setIsEditing] = useState(false);
@@ -47,6 +47,11 @@ export const TextLayer = () => {
       trRef.current.nodes([textRef.current]);
     }
   }, [isEditing]);
+
+  const handleTextClick = () => {
+    if (canvasFocus === "text") setCanvasFocus(null);
+    else setCanvasFocus("text");
+  };
 
   const handleTextDblClick = () => {
     setIsEditing(true);
@@ -98,8 +103,8 @@ export const TextLayer = () => {
         align="center"
         onDblClick={handleTextDblClick}
         onDblTap={handleTextDblClick}
-        onTap={() => setTextFocused((prev) => !prev)}
-        onClick={() => setTextFocused((prev) => !prev)}
+        onTap={handleTextClick}
+        onClick={handleTextClick}
         onDragMove={(e) =>
           setTextPosition({
             x: e.target.x() - bubblePosition.x,
@@ -117,7 +122,7 @@ export const TextLayer = () => {
       )}
 
       <Transformer
-        visible={textFocused && !isEditing}
+        visible={canvasFocus === "text" && !isEditing}
         ref={trRef}
         enabledAnchors={["middle-left", "middle-right"]}
         rotationSnaps={[0, 90, 180, 270]}
@@ -159,6 +164,12 @@ const TextEditor = (props: {
       document.removeEventListener("touchstart", handleOutsideClick);
     };
   }, [onClose, textarea]);
+
+  useEffect(() => {
+    if (!textarea) return;
+    // Highlight the text
+    textarea.selectionEnd = textarea.value.length;
+  }, [textarea]);
 
   const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {

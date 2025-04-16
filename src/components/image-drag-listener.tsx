@@ -14,9 +14,7 @@ export const ImageDragListener = () => {
 
     const files = Array.from(e.dataTransfer.files);
     const imageFile = files.find((file) => file.type.startsWith("image/"));
-    if (imageFile) {
-      uploadImage(imageFile);
-    }
+    if (imageFile) uploadImage(imageFile);
     setIsDragging(false);
   };
 
@@ -39,6 +37,8 @@ export const ImageDragListener = () => {
       document.removeEventListener("dragover", handleDragOver);
       document.removeEventListener("dragleave", handleDragLeave);
     };
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

@@ -16,7 +16,7 @@ export const ExportButton = () => {
 
     const link = document.createElement("a");
     link.href = stageRef.current.toDataURL({ pixelRatio: 2 });
-    link.download = "superimposed-image.png";
+    link.download = "chat-bubblified-image.png";
     link.click();
   };
 

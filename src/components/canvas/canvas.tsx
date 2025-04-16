@@ -10,10 +10,9 @@ import { BackgroundLayer } from "@/components/canvas/background-layer";
 import { BubbleLayer } from "@/components/canvas/bubble-layer";
 import {
   backgroundImageAtom,
-  bubbleFocusedAtom,
   canvasDimensionsAtom,
+  canvasFocusAtom,
   canvasStageRefAtom,
-  textFocusedAtom,
 } from "@/store/store";
 
 import { ExportButton } from "../download-button";
@@ -21,8 +20,7 @@ import { UploadBackgroundButton } from "../upload-button";
 import { TextLayer } from "./text-layer";
 
 export const Canvas = () => {
-  const [, setBubbleFocused] = useAtom(bubbleFocusedAtom);
-  const [, setTextFocused] = useAtom(textFocusedAtom);
+  const [, setCanvasFocus] = useAtom(canvasFocusAtom);
   const [backgroundImage] = useAtom(backgroundImageAtom);
   const [canvasDim] = useAtom(canvasDimensionsAtom);
   const [canvasStageRef, setCanvasStageRefAtom] = useAtom(canvasStageRefAtom);
@@ -31,8 +29,7 @@ export const Canvas = () => {
   const handleCanvasClick = (e: KonvaEventObject<MouseEvent>) => {
     if (e.target !== e.target.getStage()) return;
 
-    setBubbleFocused(false);
-    setTextFocused(false);
+    setCanvasFocus(null);
   };
 
   if (!canvasStageRef) setCanvasStageRefAtom(ref);

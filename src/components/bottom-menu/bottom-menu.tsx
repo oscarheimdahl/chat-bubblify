@@ -15,6 +15,7 @@ export const BottomMenu = () => {
   return (
     <motion.div
       className="absolute bottom-0 flex w-full items-center justify-center px-4 pb-4"
+      initial={{ opacity: 0 }}
       animate={{
         opacity: backgroundImage ? 1 : 0,
       }}

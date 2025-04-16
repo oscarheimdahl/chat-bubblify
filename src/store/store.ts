@@ -14,8 +14,7 @@ export const canvasDimensionsAtom = atom<{ w: number; h: number }>({
   h: 0,
 });
 
-export const bubbleFocusedAtom = atom<boolean>(false);
-export const textFocusedAtom = atom<boolean>(false);
+export const canvasFocusAtom = atom<"bubble" | "text" | null>(null);
 
 export const textSizeAtom = atom<number>(20);
 export const textFontAtom = atom<Fonts>("Inter");
